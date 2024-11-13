@@ -1,21 +1,23 @@
-#build the Docker image
-build:
-	docker build -t server .
 
-# Run Dockerfile
-run: 
-	docker run -p 3000:3000 server
+postgres:
+	 docker run --name postgres17 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:17-alpine
 
-# Run the Docker container with docker compose
+createdb:
+	docker exec -it postgres17 createdb --username=root --owner=root z1
+
+execdb:
+	docker exec -it postgres17 psql -U root -d z1
+	
+dropdb:
+	docker exec -it postgres17 dropdb z1
+
 up:
-	docker-compose up
+	docker-compose up --build
 
-# Stop and remove Docker containers
-stop:
-	docker-compose down
+compose:
+	docker-compose build
 
-# Clean up build artifacts
-clean:
-	rm -rf node_modules dist
+migrate:
+	npx prisma migrate dev --name init
 
-.PHONY: build run up stop clean
+.PHONY: up postgres createdb dropdb execdb
