@@ -1,14 +1,20 @@
 services:
-  server:
-    build: .
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-prisma-server
     ports:
       - '3000:3000'
-    volumes:
-      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
 
-  postgres:
+  db:
     image: postgres:17-alpine
-    container_name: postgres
+    container_name: db
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: secret
@@ -17,3 +23,21 @@ services:
       - '5432:5432'
     volumes:
       - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-d', 'z1']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    restart: unless-stopped

@@ -1,9 +1,10 @@
 # Stage 1: Build a the app
 FROM node:23-alpine AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
+COPY prisma ./prisma/
 
 RUN npm install
 
@@ -11,21 +12,16 @@ COPY . .
 
 RUN npm run build
 
-
-# Stage 2: Create a minimal runtime image
 FROM node:23-alpine
 
-WORKDIR /usr/src/app
-
-COPY --from=builder /usr/src/app/dist /usr/src/app/dist
-
-COPY package*.json ./
-
-RUN npm install --only=production
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
-
+# CMD ["npm", "run", "start:prod"]
+CMD ["sh", "-c", "npx prisma migrate dev && npm run start:prod"]
 
 
