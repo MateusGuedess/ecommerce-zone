@@ -2,9 +2,9 @@ import { Prisma, User as UserModel } from '.prisma/client';
 import { Controller, Post, Body, Param, Get, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post()
   async createUser(
