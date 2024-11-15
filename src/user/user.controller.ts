@@ -12,7 +12,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 type UserType = Promise<Omit<UserModel, 'password' | 'id'>>;
 @Controller('users')
 export class UserController {
