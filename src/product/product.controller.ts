@@ -12,7 +12,7 @@ import { Prisma } from '@prisma/client';
 
 @Controller('products')
 export class ProductController {
-  constructor(private readonly productService: ProductService) { }
+  constructor(private readonly productService: ProductService) {}
 
   @Post()
   create(@Body() body: Prisma.ProductCreateInput) {
@@ -26,7 +26,7 @@ export class ProductController {
 
   @Get(':sku')
   findOne(@Param('sku') sku: Prisma.ProductWhereUniqueInput) {
-    return this.productService.findOne(sku);
+    return this.productService.findOne({ sku: +sku });
   }
 
   @Patch(':sku')
@@ -34,7 +34,7 @@ export class ProductController {
     @Param('sku') sku: Prisma.ProductWhereUniqueInput,
     @Body() body: Prisma.ProductUpdateInput,
   ) {
-    return this.productService.update(sku, body);
+    return this.productService.update({ where: Number(sku), data: body });
   }
 
   @Delete(':sku')

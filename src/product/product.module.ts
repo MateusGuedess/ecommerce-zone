@@ -9,4 +9,4 @@ import { DatabaseModule } from 'src/database/database.module';
   controllers: [ProductController],
   providers: [ProductService, AuthGuard],
 })
-export class ProductModule { }
+export class ProductModule {}

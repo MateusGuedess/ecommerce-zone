@@ -4,7 +4,7 @@ import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class ProductService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   create(data: Prisma.ProductCreateInput) {
     return this.prisma.product.create({ data });
@@ -18,8 +18,12 @@ export class ProductService {
     return this.prisma.product.findUnique({ where: sku });
   }
 
-  update(sku: Prisma.ProductWhereUniqueInput, data: Prisma.ProductUpdateInput) {
-    return this.prisma.product.update({ where: sku, data });
+  update(params: {
+    where: Prisma.ProductWhereUniqueInput;
+    data: Prisma.ProductUpdateInput;
+  }) {
+    const { where, data } = params;
+    return this.prisma.product.update({ where, data });
   }
 
   remove(sku: Prisma.ProductWhereUniqueInput) {
