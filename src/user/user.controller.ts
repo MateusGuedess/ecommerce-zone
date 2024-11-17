@@ -48,7 +48,7 @@ export class UserController {
     @Body() userData: Prisma.UserCreateInput,
   ): Promise<UserModel> {
     return this.userService.updateUser({
-      where: id,
+      where: { id: +id },
       data: userData,
     });
   }
