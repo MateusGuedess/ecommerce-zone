@@ -34,7 +34,7 @@ export class CartController {
     @Param('id') id: Prisma.CartWhereUniqueInput,
     @Body() data: Prisma.CartUpdateInput,
   ) {
-    return this.cartService.update({ where: id, data });
+    return this.cartService.update({ where: { id: +id }, data });
   }
 
   @Delete(':id')

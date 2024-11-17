@@ -31,10 +31,10 @@ export class CartItemController {
 
   @Patch(':id')
   update(
-    @Param('id') where: Prisma.CartItemsWhereUniqueInput,
+    @Param('id') id: Prisma.CartItemsWhereUniqueInput,
     @Body() data: Prisma.CartItemsUpdateInput,
   ) {
-    return this.cartItemService.update({ where, data });
+    return this.cartItemService.update({ where: { id: +id }, data });
   }
 
   @Delete(':id')

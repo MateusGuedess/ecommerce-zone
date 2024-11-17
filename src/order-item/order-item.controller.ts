@@ -34,7 +34,7 @@ export class OrderItemController {
     @Param('id') id: Prisma.OrderItemsWhereUniqueInput,
     @Body() data: Prisma.OrderItemsUpdateInput,
   ) {
-    return this.orderItemService.update({ where: id, data });
+    return this.orderItemService.update({ where: { id: +id }, data });
   }
 
   @Delete(':id')

@@ -31,10 +31,10 @@ export class OrderController {
 
   @Patch(':id')
   update(
-    @Param('id') where: Prisma.OrderWhereUniqueInput,
+    @Param('id') id: Prisma.OrderWhereUniqueInput,
     @Body() data: Prisma.OrderCreateInput,
   ) {
-    return this.orderService.update({ where, data });
+    return this.orderService.update({ where: { id: +id }, data });
   }
 
   @Delete(':id')
