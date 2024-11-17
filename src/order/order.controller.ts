@@ -21,11 +21,14 @@ export class OrderController {
     return this.orderService.createOrderWithTransaction(userId);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  findAll(@Request() req: any) {
+    const userId = req.sub;
+    return this.orderService.findAll(userId);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') where: Prisma.OrderWhereUniqueInput) {
     return this.orderService.findOne(where);

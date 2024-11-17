@@ -68,8 +68,12 @@ export class OrderService {
     });
   }
 
-  findAll() {
-    return this.prisma.order.findMany();
+  findAll(userId: number) {
+    return this.prisma.order.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
   findOne(where: Prisma.OrderWhereUniqueInput) {
