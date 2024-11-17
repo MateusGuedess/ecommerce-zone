@@ -34,7 +34,7 @@ export class ProductController {
     @Param('sku') sku: Prisma.ProductWhereUniqueInput,
     @Body() body: Prisma.ProductUpdateInput,
   ) {
-    return this.productService.update({ where: Number(sku), data: body });
+    return this.productService.update({ where: { sku: +sku }, data: body });
   }
 
   @Delete(':sku')
