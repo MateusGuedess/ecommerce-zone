@@ -13,7 +13,13 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 type UserType = Promise<Omit<UserModel, 'password' | 'id'>>;
 
 @ApiTags('users')
@@ -80,6 +86,23 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a user by ID' })
+  @ApiResponse({ status: 200, description: 'User updated' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string' },
+        password: { type: 'string' },
+      },
+      required: ['email', 'password'],
+    },
+  })
   @HttpCode(HttpStatus.OK)
   async updateUser(
     @Param('id') id: Prisma.UserWhereUniqueInput,
@@ -92,6 +115,13 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Delete a user by ID' })
+  @ApiResponse({ status: 204, description: 'User deleted' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+  })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteUser(@Param('id') id: Prisma.UserWhereUniqueInput) {
