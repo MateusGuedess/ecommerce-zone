@@ -90,13 +90,10 @@ CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
 CREATE INDEX "Cart_id_idx" ON "Cart"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CartItems_cartId_key" ON "CartItems"("cartId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "CartItems_productId_key" ON "CartItems"("productId");
-
--- CreateIndex
 CREATE INDEX "CartItems_cartId_idx" ON "CartItems"("cartId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CartItems_cartId_productId_key" ON "CartItems"("cartId", "productId");
 
 -- CreateIndex
 CREATE INDEX "Category_id_idx" ON "Category"("id");

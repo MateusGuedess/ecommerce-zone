@@ -6,39 +6,47 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { CartItemService } from './cart-item.service';
-import { Prisma } from '@prisma/client';
+import { CartItems, Prisma } from '@prisma/client';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cart-items')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
-  create(@Body() body: Prisma.CartItemsCreateInput) {
-    return this.cartItemService.create(body);
-  }
-
-  @Get()
-  findAll() {
-    return this.cartItemService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: Prisma.CartItemsWhereUniqueInput) {
-    return this.cartItemService.findOne({ id: +id });
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: Prisma.CartItemsWhereUniqueInput,
-    @Body() data: Prisma.CartItemsUpdateInput,
+  async create(
+    @Body() body: { quantity: number; productId: number },
+    @Request() req: any,
   ) {
-    return this.cartItemService.update({ where: { id: +id }, data });
+    const userId = +req.sub;
+    return this.cartItemService.create(body, userId);
   }
 
+  @UseGuards(AuthGuard)
+  @Get()
+  async findAll(@Request() req: any) {
+    const userId = +req.sub;
+    return this.cartItemService.findAll(userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id')
+  async update(
+    @Param('id') id: Prisma.CartItemsWhereUniqueInput,
+  ): Promise<CartItems> {
+    return this.cartItemService.update({
+      where: { id: +id },
+    });
+  }
+
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') where: Prisma.CartItemsWhereUniqueInput) {
+  async remove(@Param('id') where: Prisma.CartItemsWhereUniqueInput) {
     return this.cartItemService.remove(where);
   }
 }

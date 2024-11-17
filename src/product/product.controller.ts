@@ -15,22 +15,22 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() body: Prisma.ProductCreateInput) {
+  async create(@Body() body: Prisma.ProductCreateInput) {
     return this.productService.create(body);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.productService.findAll();
   }
 
   @Get(':sku')
-  findOne(@Param('sku') sku: Prisma.ProductWhereUniqueInput) {
+  async findOne(@Param('sku') sku: Prisma.ProductWhereUniqueInput) {
     return this.productService.findOne({ sku: +sku });
   }
 
   @Patch(':sku')
-  update(
+  async update(
     @Param('sku') sku: Prisma.ProductWhereUniqueInput,
     @Body() body: Prisma.ProductUpdateInput,
   ) {
@@ -38,7 +38,7 @@ export class ProductController {
   }
 
   @Delete(':sku')
-  remove(@Param('sku') sku: Prisma.ProductWhereUniqueInput) {
+  async remove(@Param('sku') sku: Prisma.ProductWhereUniqueInput) {
     return this.productService.remove(sku);
   }
 }

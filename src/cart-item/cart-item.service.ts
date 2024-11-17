@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 
@@ -6,34 +6,89 @@ import { PrismaService } from 'src/database/prisma.service';
 export class CartItemService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.CartItemsCreateInput) {
-    return this.prisma.cartItems.create({
-      data,
+  async create(data: { quantity: number; productId: number }, userId: number) {
+    let existingCart = await this.prisma.cart.findUnique({
+      where: { userId },
+    });
+
+    if (!existingCart) {
+      existingCart = await this.prisma.cart.create({
+        data: {
+          userId,
+        },
+      });
+    }
+
+    return this.prisma.cartItems.upsert({
+      where: {
+        cartId_productId: {
+          cartId: existingCart.id,
+          productId: data.productId,
+        },
+      },
+      create: {
+        quantity: data.quantity,
+        cart: {
+          connect: {
+            userId,
+          },
+        },
+        product: {
+          connect: {
+            sku: data.productId,
+          },
+        },
+      },
+      update: {
+        quantity: {
+          increment: data.quantity,
+        },
+      },
     });
   }
 
-  findAll() {
-    return this.prisma.cartItems.findMany();
+  async findAll(userId: number) {
+    const cart = await this.prisma.cart.findUnique({
+      where: {
+        userId,
+      },
+    });
+    console.log('CART ', cart, userId);
+    return this.prisma.cartItems.findMany({
+      where: {
+        cartId: cart.id,
+      },
+    });
   }
 
-  findOne(where: Prisma.CartItemsWhereUniqueInput) {
-    return this.prisma.cartItems.findUnique({
+  async update(params: { where: Prisma.CartItemsWhereUniqueInput }) {
+    const { where } = params;
+
+    const cartItem = await this.prisma.cartItems.findUnique({
       where,
     });
-  }
 
-  update(params: {
-    where: Prisma.CartItemsWhereUniqueInput;
-    data: Prisma.CartItemsUpdateInput;
-  }) {
-    const { where, data } = params;
+    if (!cartItem) {
+      throw new NotFoundException('CartItem not found');
+    }
+
+    if (cartItem.quantity <= 1) {
+      return this.prisma.cartItems.delete({
+        where,
+      });
+    }
+
     return this.prisma.cartItems.update({
       where,
-      data,
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
     });
   }
 
-  remove(where: Prisma.CartItemsWhereUniqueInput) {
+  async remove(where: Prisma.CartItemsWhereUniqueInput) {
     this.prisma.cartItems.delete({
       where,
     });

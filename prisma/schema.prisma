@@ -31,8 +31,8 @@ model Product {
   sku           Int            @default(autoincrement()) @id
   name          String  
   categories    Category[]
-  cart          CartItems?
-  order         OrderItems?
+  cart          CartItems[]
+  order         OrderItems[]
   stock         Int
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
@@ -56,12 +56,14 @@ model Cart {
 model CartItems {
   id            Int             @default(autoincrement()) @id
   cart          Cart            @relation(fields: [cartId], references: [id])
-  cartId        Int             @unique
+  cartId        Int             
   product       Product         @relation(fields: [productId], references: [sku])
-  productId     Int             @unique
+  productId     Int             
   createdAt     DateTime        @default(now())
   quantity      Int
 
+
+  @@unique([cartId, productId])
   @@index(fields:[cartId])
 }
 

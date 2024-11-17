@@ -6,19 +6,19 @@ import { PrismaService } from 'src/database/prisma.service';
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.ProductCreateInput) {
+  async create(data: Prisma.ProductCreateInput) {
     return this.prisma.product.create({ data });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.product.findMany();
   }
 
-  findOne(sku: Prisma.ProductWhereUniqueInput) {
+  async findOne(sku: Prisma.ProductWhereUniqueInput) {
     return this.prisma.product.findUnique({ where: sku });
   }
 
-  update(params: {
+  async update(params: {
     where: Prisma.ProductWhereUniqueInput;
     data: Prisma.ProductUpdateInput;
   }): Promise<Product> {
@@ -26,7 +26,7 @@ export class ProductService {
     return this.prisma.product.update({ where, data });
   }
 
-  remove(sku: Prisma.ProductWhereUniqueInput) {
+  async remove(sku: Prisma.ProductWhereUniqueInput) {
     return this.prisma.product.delete({ where: sku });
   }
 }

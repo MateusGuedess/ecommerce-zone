@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createUser(data: Prisma.UserCreateInput) {
     const hashPassword = await bcrypt.hash(data.password, 10);
@@ -44,6 +44,11 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      include: {
+        cart: true,
+        order: true,
+      },
+    });
   }
 }
