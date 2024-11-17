@@ -2,21 +2,23 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { Prisma } from '@prisma/client';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post()
-  create(@Body() body: Prisma.OrderCreateInput) {
-    return this.orderService.create(body);
+  @UseGuards(AuthGuard)
+  @Post('purchase')
+  async purchase(@Request() req: any) {
+    const userId = req.sub;
+    return this.orderService.createOrderWithTransaction(userId);
   }
 
   @Get()
@@ -27,18 +29,5 @@ export class OrderController {
   @Get(':id')
   findOne(@Param('id') where: Prisma.OrderWhereUniqueInput) {
     return this.orderService.findOne(where);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: Prisma.OrderWhereUniqueInput,
-    @Body() data: Prisma.OrderCreateInput,
-  ) {
-    return this.orderService.update({ where: { id: +id }, data });
-  }
-
-  @Delete(':id')
-  remove(@Param('id') where: Prisma.OrderWhereUniqueInput) {
-    return this.orderService.remove(where);
   }
 }
