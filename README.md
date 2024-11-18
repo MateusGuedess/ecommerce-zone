@@ -1,3 +1,40 @@
+# Z1 Ecommerce
+
+<p align="center">
+  The main reason of this project, is create an api that can lead with basic interations of an ecommerce, like create a user and buy products. This api is far of be complete, but it toke to me to much effort to make it usable in 5 days.
+</p>
+
+## Happy path
+
+<p align="center">
+  The happy path of this project is to create a user, login, create a product, add the product to the cart and buy the product. The user can see the products that he bought and the products that he has in the cart.
+</p>
+
+<p align="center">
+  The user can also see the products that he bought and the products that he has in the cart.
+</p>
+
+### Happy Path - Tutorial
+
+<p align="center">
+  So we to start the happy path of this api, we need to create a user. To do that,
+  we need to make a post request to the endpoint /users with the following body:
+
+```json
+
+POST /users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "teste@teste.com",
+  "password": "123456"
+}
+
+```
+
+</p>
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
