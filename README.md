@@ -15,6 +15,35 @@
 </p>
 <a href="https://opensource.com/article/18/8/what-how-makefile" target="_blank">More about Makefile</a>
 
+## Docker
+
+_~Now it work in all machines 😎~_
+
+### Compose
+
+I created 3 services in the docker-compose file, to save your time, I added pgadmin, but if you have a db client of
+your preference, you can remove the pgadmin service and make the build faster.
+
+Obs: I added the migrate command to the Docker file, but it will not work since it not can run at build time.
+
+## NestJS
+
+### Why NestJS?
+
+The reason that I choose NestJS, is because it is a framework that is easy to use, and have a lot of features that can
+help to build a scalable application and it's type safe.
+
+## Prisma
+
+### Why Prisma?
+
+I didn't have much time to make the queries, so choose an orm would be a life saver. I choose Prisma because it new, it's modern, it's type safe and is getting alot of
+traction in the community.
+
+## Swagger
+
+The documentation of the api is in the swagger, you can access it in the endpoint /api-docs.
+
 ## Happy path
 
 <p align="start">
