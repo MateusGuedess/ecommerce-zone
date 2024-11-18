@@ -71,8 +71,6 @@ if you want to test the migrations you can set the `schema.prisma` service name 
 
 obs: run this command after change the `schema.prisma` service name to `localhost`, and with docker running.
 
-````bash
-
 ## Happy path
 
 <p align="start">
@@ -96,7 +94,7 @@ Content-Type: application/json
   "password": "123456"
 }
 
-````
+```
 
 After create the user we need to signup the user and receive the jwt token.
 
