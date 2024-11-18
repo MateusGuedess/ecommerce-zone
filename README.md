@@ -14,6 +14,7 @@
   In this project I used the Makefile to make it easier to run some commands and easier to understand some commands that you can do.
 </p>
 <a href="https://opensource.com/article/18/8/what-how-makefile" target="_blank">More about Makefile</a>
+
 ## Happy path
 
 <p align="start">
