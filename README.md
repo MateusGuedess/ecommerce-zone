@@ -4,6 +4,23 @@
   The main reason of this project, is create an api that can lead with basic interations of an ecommerce, like create a user and buy products. This api is far of be complete, but it toke to me to much effort to make it usable in 5 days.
 </p>
 
+## What would I do if I had more time?
+
+Since this project was a week project, I had to combine with my actual job. So I choose to bring value to the project beside other things.
+But if I had more time, I would do the following things:
+
+- Add more tests and get the coverage to at least 70%.
+- Add more validations in the endpoints.
+- Improve the error handling.
+- Add more features to the api like, control the stock of the products at the time of cart add.
+- Add a service to send emails to the user.
+- Add a service to send notification to the user.
+- Add a Redis like to cache and block the products that are in the cart for some time.
+- Improve the code quality since we have some routes that isn't necessary.
+- Improve the documation with swagger.
+
+_"Sometimes I'll start a sentence and I don't even know where it's going. I just home I find it along the way". Michael Scott_
+
 ## Makefile
 
 ### Why Makefile?
