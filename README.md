@@ -6,18 +6,18 @@
 
 ## Happy path
 
-<p align="center">
+<p align="start">
   The happy path of this project is to create a user, login, create a product, add the product to the cart and buy the product. The user can see the products that he bought and the products that he has in the cart.
 </p>
 
-<p align="center">
+<p align="start">
   The user can also see the products that he bought and the products that he has in the cart.
 </p>
 
 ### Happy Path - Tutorial
 
-<p align="center">
-  So we to start the happy path of this api, we need to create a user. To do that,
+<p align="start">
+  So to start the happy path of this api, we need to create a user. To do that,
   we need to make a post request to the endpoint /users with the following body:
 
 ```json
@@ -32,6 +32,63 @@ Content-Type: application/json
 }
 
 ```
+
+After create the user we need to signup the user and receive the jwt token.
+
+```json
+
+POST /auth
+Content-Type: application/json
+
+{
+  "email": "teste@teste.com",
+  "password": "123456"
+}
+
+```
+
+Now we have the jwt token, we can create a product.
+To do that, we need to make a post request to the endpoint /products with the following body:
+
+```json
+
+POST /products
+Content-Type: application/json
+Authorization Bearer <jwt
+
+{
+  "name": "Product 1",
+  "stock": 7
+}
+
+```
+
+Now we have the product created, we can add the product to the cart.
+To do that, we need to make a post request to the endpoint /cart-items with the following body:
+
+```json
+POST /cart-items
+Content-Type: application/json
+Authorization Bearer <jwt
+
+{
+  "productId": 1,
+  "quantity": 1
+}
+
+```
+
+Now we have the product in the cart, we can buy the product.
+I designed the api to get the products in the cart and create a order with the products in the cart.
+One transaction is doing all these stuff behind or eyes to garanty atomicity.
+
+```json
+POST /orders/purchase
+Authorization Bearer <jwt
+
+```
+
+Now we have the product bought, we can see the products that we bought.
 
 </p>
 
