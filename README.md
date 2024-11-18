@@ -10,10 +10,6 @@
   The happy path of this project is to create a user, login, create a product, add the product to the cart and buy the product. The user can see the products that he bought and the products that he has in the cart.
 </p>
 
-<p align="start">
-  The user can also see the products that he bought and the products that he has in the cart.
-</p>
-
 ### Happy Path - Tutorial
 
 <p align="start">
@@ -49,12 +45,12 @@ Content-Type: application/json
 
 Now we have the jwt token, we can create a product.
 To do that, we need to make a post request to the endpoint /products with the following body:
+_Obs: The jwt token is not necessary to create a product!_
 
 ```json
 
 POST /products
 Content-Type: application/json
-Authorization Bearer <jwt
 
 {
   "name": "Product 1",
@@ -63,8 +59,8 @@ Authorization Bearer <jwt
 
 ```
 
-Now we have the product created, we can add the product to the cart.
-To do that, we need to make a post request to the endpoint /cart-items with the following body:
+With the product created you can add the product to the cart making a post request to the endpoint /cart-items with
+the following body:
 
 ```json
 POST /cart-items
@@ -79,8 +75,9 @@ Authorization Bearer <jwt
 ```
 
 Now we have the product in the cart, we can buy the product.
-I designed the api to get the products in the cart and create a order with the products in the cart.
-One transaction is doing all these stuff behind or eyes to garanty atomicity.
+I designed the api to get the products in the cart, and create a order with these products.
+The transaction that is doing this, is in the `src/order/order-service.ts`. Transaction guarantee that
+the products in the cart will be removed after the order is created.
 
 ```json
 POST /orders/purchase
