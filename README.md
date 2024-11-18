@@ -1,9 +1,19 @@
 # Z1 Ecommerce
 
-<p align="center">
+<p align="start">
   The main reason of this project, is create an api that can lead with basic interations of an ecommerce, like create a user and buy products. This api is far of be complete, but it toke to me to much effort to make it usable in 5 days.
 </p>
 
+## Makefile
+
+### Why Makefile?
+
+<p align="start">
+  The Makefile is a tool that can help to run the project in a easy way. 
+  The Makefile is a file that contains a set of directives used to build software. It can be used to compile the project, run tests, and deploy the project.
+  In this project I used the Makefile to make it easier to run some commands and easier to understand some commands that you can do.
+</p>
+<a href="https://opensource.com/article/18/8/what-how-makefile" target="_blank">More about Makefile</a>
 ## Happy path
 
 <p align="start">
